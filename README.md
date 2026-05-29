@@ -37,7 +37,7 @@ Goal visibility and centering reward.
 GUI-based testing over three different maze scenarios.
 TensorBoard support for viewing training graphs.
 
-#3. Project Structure
+# 3. Project Structure
 ```text
 project/
 ├── maze.py                         # Main Tkinter launcher for training, testing, and TensorBoard
@@ -60,7 +60,7 @@ project/
 ├── dirt.jpg                        # Texture/image asset
 └── README.md                       # Project documentation
 ```
-#4. Requirements
+# 4. Requirements
 Recommended setup:
 Windows 10/11, macOS, or Linux
 Python 3.10 to 3.12 recommended
@@ -79,14 +79,14 @@ wandb
 ```
 `wandb` is optional. The training script will still run without it.
 
-#5. Setup Instructions
-##5.1 Create a virtual environment
+# 5. Setup Instructions
+## 5.1 Create a virtual environment
 From inside the project folder:
 ```powershell
 python -m venv .venv
 ```
 
-##5.2 Activate the virtual environment on Windows PowerShell
+## 5.2 Activate the virtual environment on Windows PowerShell
 If PowerShell blocks activation, first run:
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
@@ -100,7 +100,7 @@ After activation, the terminal should look like this:
 (.venv) PS C:\Users\User\Documents\ai\project>
 ```
 
-##5.3 Install dependencies
+## 5.3 Install dependencies
 Install the required packages into the active virtual environment:
 ```powershell
 python -m pip install --upgrade pip
@@ -111,7 +111,7 @@ If you do not want Weights & Biases logging, you can omit `wandb`:
 python -m pip install gymnasium pybullet stable-baselines3[extra] numpy matplotlib pillow tensorboard
 ```
 
-#6. Running the Project
+# 6. Running the Project
 ##6.1 Start the main launcher
 ```powershell
 python maze.py
@@ -126,7 +126,7 @@ Run testing.
 Open TensorBoard.
 Stop running processes.
 
-##6.2 Train the PPO model directly
+## 6.2 Train the PPO model directly
 ```powershell
 python maze_train.py
 ```
@@ -141,7 +141,7 @@ After training, the model is saved as:
 model/turtlebot3_maze_model_LIDAR.zip
 ```
 
-##6.3 Test the trained model directly
+## 6.3 Test the trained model directly
 ```powershell
 python maze_test.py
 ```
@@ -151,7 +151,7 @@ model/turtlebot3_maze_model_LIDAR.zip
 ```
 It then runs the trained robot through three seeded maze scenarios.
 
-##6.4 Open TensorBoard
+## 6.4 Open TensorBoard
 ```powershell
 tensorboard --logdir maze_tensorboard --port 6006
 ```
@@ -160,7 +160,7 @@ Then open this address in a browser:
 http://localhost:6006
 ```
 
-#7. Training Configuration
+# 7. Training Configuration
 The main reward settings are stored in `maze_train.py` inside `REWARD_CONFIG`.
 Key values include:
 ```python
@@ -189,7 +189,7 @@ gae_lambda = 0.95
 ent_coef = 0.005
 clip_range = 0.2
 ```
-#8. Environment Details
+# 8. Environment Details
 The custom environment is implemented in:
 ```text
 turtlebot3_maze_env.py
@@ -203,7 +203,7 @@ The observation size is 52 values:
 = 52 total observations
 ```
 The action space is continuous and controls the TurtleBot's wheel velocities.
-11. Troubleshooting
+# 9. Troubleshooting
 Error: `No module named 'stable_baselines3'`
 Activate the environment and reinstall:
 ```powershell
@@ -237,7 +237,7 @@ Train the model first:
 ```powershell
 python maze_train.py
 ```
-#9. Suggested Run Order
+# 10. Suggested Run Order
 For a fresh setup:
 ```powershell
 python -m venv .venv
@@ -250,9 +250,8 @@ python maze.py
 ```
 Then use the GUI to train, test, or open TensorBoard.
 
-#10. Authors
+# 11. Authors
 Created by:
 Abisha Nasim
 William Sklibosios
-14. Notes
-This project is designed for reinforcement learning experimentation and simulation-based robot navigation. Training performance may vary depending on CPU/GPU capability, Python environment, and PPO configuration. For faster iteration, reduce `TOTAL_TIMESTEPS` during debugging, then increase it for final training.
+
