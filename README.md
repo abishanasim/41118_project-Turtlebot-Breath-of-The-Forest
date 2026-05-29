@@ -252,6 +252,5 @@ Then use the GUI to train, test, or open TensorBoard.
 
 # 11. Authors
 Created by:
-Abisha Nasim
-William Sklibosios
+Abisha Nasim and William Sklibosios
 
