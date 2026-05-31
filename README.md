@@ -119,7 +119,7 @@ python -m pip install gymnasium pybullet stable-baselines3[extra] numpy matplotl
 # 6. Running the Project
 ##6.1 Start the main launcher
 ```powershell
-python maze.py
+python RUN_ME.py
 ```
 This opens the main GUI titled:
 ```text
@@ -133,26 +133,26 @@ Stop running processes.
 
 ## 6.2 Train the PPO model directly
 ```powershell
-python maze_train.py
+python train.py
 ```
 The training script uses:
 ```text
-TOTAL_TIMESTEPS = 600000
-N_ENVS = 4
-MODEL_PATH = model/turtlebot3_maze_model_LIDAR
+TOTAL_TIMESTEPS = 1000000
+N_ENVS          = 10
+MODEL_PATH      = model/turtlebot3_maze_modelDeez
 ```
 After training, the model is saved as:
 ```text
-model/turtlebot3_maze_model_LIDAR.zip
+model/turtlebot3_maze_model.zip
 ```
 
 ## 6.3 Test the trained model directly
 ```powershell
-python maze_test.py
+python test.py
 ```
 The test script loads:
 ```text
-model/turtlebot3_maze_model_LIDAR.zip
+model/turtlebot3_maze_model.zip
 ```
 It then runs the trained robot through three seeded maze scenarios.
 
@@ -178,9 +178,10 @@ Key values include:
 "cnn_visible_reward": 0.5,
 "cnn_centering_reward": 1.5,
 "front_wall_threshold": 0.50,
-"front_wall_penalty": 3.0,
-"proximity_threshold": 0.18,
-"proximity_penalty": -0.5,
+"front_wall_penalty": 4.0,
+"proximity_threshold": 0.22,
+"proximity_penalty": -0.8,
+"proximity_exponent": 3.0,
 "crash_lidar_threshold": 0.01,
 ```
 PPO hyperparameters include:
