@@ -40,24 +40,29 @@ TensorBoard support for viewing training graphs.
 # 3. Project Structure
 ```text
 project/
-├── maze.py                         # Main Tkinter launcher for training, testing, and TensorBoard
-├── maze_train.py                   # PPO training script
-├── maze_test.py                    # Runs the trained model through test maze scenarios
+├── RUN_ME.py                       # Main Tkinter launcher for training, testing, and TensorBoard
+├── train.py                        # PPO training script
+├── test.py                         # Runs the trained model through test maze scenarios
 ├── turtlebot3_maze_env.py          # Custom Gymnasium + PyBullet TurtleBot3 maze environment
-├── project_gui.py                  # Visual GUI used during testing
 ├── maze_grid.py                    # 5x5 maze generation and grid utilities
-├── maze_navigator.py               # Navigation/planning helper logic
-├── astar_planner.py                # A* path planning implementation
-├── occupancy_grid.py               # Occupancy grid representation
 ├── goal_detector.py                # Goal detection helper using image processing
-├── metrics_callback.py             # Custom Stable-Baselines3 callback for training metrics
+├── train_metrics.py                # Custom Stable-Baselines3 callback for training metrics
 ├── turtlebot3_burger.urdf          # TurtleBot3 Burger robot model
 ├── turtlebot3_description/         # TurtleBot3 mesh assets
+├── assets/                         # GUI image and audio assets
+│   ├── splash_background.png
+│   ├── home_background.png
+│   ├── navigator_background.png
+│   ├── title_text.png
+│   ├── dirt.jpg
+│   └── Zelda Main Theme Song.mp3
 ├── model/                          # Saved trained PPO models
 ├── maze_tensorboard/               # TensorBoard training logs
 ├── wandb/                          # Weights & Biases run logs, if enabled
-├── yolov8n.pt                      # YOLO model file included in project assets
-├── dirt.jpg                        # Texture/image asset
+├── portfolio/                      # Web portfolio for the project
+│   ├── index.html
+│   ├── logo.png
+│   └── Graphs.png
 └── README.md                       # Project documentation
 ```
 # 4. Requirements
