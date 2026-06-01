@@ -1,262 +1,107 @@
-Legend of TurtleBot: Breath of the Forest
-A Python-based TurtleBot3 maze navigation project using PyBullet, Gymnasium, and Stable-Baselines3 PPO. The project trains a reinforcement learning agent to navigate a 5x5 forest maze using simulated LiDAR readings, goal-detection feedback, and visited-cell memory. A Tkinter launcher is included for training, testing, and opening TensorBoard.
+# Legend of Turtlebot: Breath of the Forest
 
-# 1. Project Overview
-This project simulates a TurtleBot3 Burger robot inside a generated maze environment. The robot must travel from the starting cell to the goal cell while avoiding walls and learning efficient navigation behaviour.
+A reinforcement learning project that trains a TurtleBot3 Burger robot to autonomously navigate procedurally-generated 5×5 grid mazes using Proximal Policy Optimization (PPO). The robot learns to travel from a fixed start position to a goal using a 52-dimensional observation space combining simulated LiDAR sensor readings, CNN-based visual goal detection, and a visited-cell exploration map — all inside a PyBullet physics simulation. A Zelda-themed GUI provides a live dashboard with robot POV camera, bird's-eye path trace, 360° LiDAR visualisation, and real-time training statistics.
 
-The system includes:
-A custom Gymnasium environment for TurtleBot3 maze navigation.
-PyBullet physics simulation and TurtleBot3 URDF/mesh assets.
-PPO reinforcement learning through Stable-Baselines3.
-LiDAR-style wall sensing using ray casts.
-Goal-detection feedback using rendered camera images.
-Occupancy/visited-cell tracking to encourage exploration.
-A Tkinter GUI launcher for training, testing, and TensorBoard.
-TensorBoard logging for reward and training metrics.
+---
 
-# 2. Main Features
-5x5 maze generation using seeded maze layouts.
-TurtleBot3 Burger simulation using PyBullet.
-PPO training with Stable-Baselines3.
-Continuous wheel velocity control for robot movement.
-Observation vector containing:
-24 LiDAR ray distances.
-CNN-style goal visibility flag.
-Goal confidence value.
-Goal horizontal offset.
-25 visited-cell indicators.
-Reward shaping based on:
-Goal reaching.
-Collision penalty.
-Step penalty.
-Progress toward goal.
-New cell exploration reward.
-Revisit penalty.
-Wall proximity penalty.
-Goal visibility and centering reward.
-GUI-based testing over three different maze scenarios.
-TensorBoard support for viewing training graphs.
+## Group Information
 
-# 3. Project Structure
-```text
-project/
-├── RUN_ME.py                       # Main Tkinter launcher for training, testing, and TensorBoard
-├── train.py                        # PPO training script
-├── test.py                         # Runs the trained model through test maze scenarios
-├── turtlebot3_maze_env.py          # Custom Gymnasium + PyBullet TurtleBot3 maze environment
-├── maze_grid.py                    # 5x5 maze generation and grid utilities
-├── goal_detector.py                # Goal detection helper using image processing
-├── train_metrics.py                # Custom Stable-Baselines3 callback for training metrics
-├── turtlebot3_burger.urdf          # TurtleBot3 Burger robot model
-├── turtlebot3_description/         # TurtleBot3 mesh assets
-├── assets/                         # GUI image and audio assets
-│   ├── splash_background.png
-│   ├── home_background.png
-│   ├── navigator_background.png
-│   ├── title_text.png
-│   ├── dirt.jpg
-│   └── Zelda Main Theme Song.mp3
-├── model/                          # Saved trained PPO models
-├── maze_tensorboard/               # TensorBoard training logs
-├── wandb/                          # Weights & Biases run logs, if enabled
-├── portfolio/                      # Web portfolio for the project
-│   ├── index.html
-│   ├── logo.png
-│   └── Graphs.png
-└── README.md                       # Project documentation
+| | |
+|---|---|
+| **Group Number** | 10 |
+| **Group Composition** | Abisha Nasim, William Sklibosios |
+
+---
+
+## Project Structure
+
 ```
-# 4. Requirements
-Recommended setup:
-Windows 10/11, macOS, or Linux
-Python 3.10 to 3.12 recommended
-`pip`
-A virtual environment
-Python packages used by the project:
-```text
-gymnasium
-pybullet
-stable-baselines3[extra]
-numpy
-matplotlib
-pillow
-tensorboard
-wandb
-```
-`wandb` is optional. The training script will still run without it.
-
-# 5. Setup Instructions
-## 5.1 Create a virtual environment
-From inside the project folder:
-```powershell
-python -m venv .venv
+project_final/
+├── RUN_ME.py                  # Main GUI launcher (recommended entry point)
+├── train.py                   # PPO training script (1M timesteps, 10 parallel envs)
+├── test.py                    # Evaluation script (3 random maze scenarios)
+├── turtlebot3_maze_env.py     # Custom Gymnasium environment (physics, rewards, sensors)
+├── maze_grid.py               # Procedural 5×5 maze generator (recursive backtracking)
+├── goal_detector.py           # CNN-style visual goal detection from robot POV camera
+├── train_metrics.py           # WandB / TensorBoard metrics callback
+├── turtlebot3_burger.urdf     # TurtleBot3 robot model definition
+├── turtlebot3_description/    # 3D mesh assets for robot rendering
+├── assets/                    # GUI backgrounds, title image, background music
+└── model/                     # Saved trained model (turtlebot3_maze_model.zip)
 ```
 
-## 5.2 Activate the virtual environment on Windows PowerShell
-If PowerShell blocks activation, first run:
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-```
-Then activate the environment:
-```powershell
-.\.venv\Scripts\activate
-```
-After activation, the terminal should look like this:
-```text
-(.venv) PS C:\Users\User\Documents\ai\project>
+---
+
+## Install Info
+
+**Requirements:** Python 3.10+
+
+**Option A — CPU only (Mac / Linux / Windows):**
+```bash
+pip install gymnasium pybullet stable-baselines3[extra] numpy matplotlib Pillow pygame wandb
 ```
 
-## 5.3 Install dependencies
-Install the required packages into the active virtual environment:
-```powershell
-python -m pip install --upgrade pip
-python -m pip install gymnasium pybullet stable-baselines3[extra] numpy matplotlib pillow tensorboard wandb
-```
-If you do not want Weights & Biases logging, you can omit `wandb`:
-```powershell
-python -m pip install gymnasium pybullet stable-baselines3[extra] numpy matplotlib pillow tensorboard
+**Option B — GPU-accelerated training (NVIDIA only):**
+```bash
+# Install CUDA-enabled PyTorch first (adjust cu118 to match your CUDA version)
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install gymnasium pybullet stable-baselines3[extra] numpy matplotlib Pillow pygame wandb
 ```
 
-# 6. Running the Project
-##6.1 Start the main launcher
-```powershell
+> `pygame` and `wandb` are optional. `pygame` enables the Zelda background music in the GUI; `wandb` enables cloud experiment tracking during training.
+
+---
+
+## Run Commands
+
+### Recommended — Launch the full GUI
+
+```bash
 python RUN_ME.py
 ```
-This opens the main GUI titled:
-```text
-Legend of Turtlebot Breath of the Forest
-```
-From the launcher, you can:
-Start training.
-Run testing.
-Open TensorBoard.
-Stop running processes.
 
-## 6.2 Train the PPO model directly
-```powershell
+Opens a Zelda-themed splash screen followed by a home dashboard. From there you can train the model, test it, or open your WandB experiment logs — all from a live visual interface showing the robot POV, bird's-eye path trace, LiDAR chart, and episode statistics.
+
+---
+
+### Train the model from the command line
+
+```bash
 python train.py
 ```
-The training script uses:
-```text
-TOTAL_TIMESTEPS = 1000000
-N_ENVS          = 10
-MODEL_PATH      = model/turtlebot3_maze_modelDeez
-```
-After training, the model is saved as:
-```text
-model/turtlebot3_maze_model.zip
-```
 
-## 6.3 Test the trained model directly
-```powershell
+Trains a PPO agent for **1,000,000 timesteps** across **10 parallel environments**. Each episode spawns a new randomly-generated maze. The trained model is saved to `model/turtlebot3_maze_model.zip`. Training metrics (success rate, collision rate, average reward, average steps to goal) are logged every 10 episodes to TensorBoard and, if configured, to Weights & Biases.
+
+---
+
+### Test the trained model
+
+```bash
 python test.py
 ```
-The test script loads:
-```text
-model/turtlebot3_maze_model.zip
-```
-It then runs the trained robot through three seeded maze scenarios.
 
-## 6.4 Open TensorBoard
-```powershell
-tensorboard --logdir maze_tensorboard --port 6006
-```
-Then open this address in a browser:
-```text
-http://localhost:6006
+Loads the saved model and runs it on **3 random maze scenarios** with fixed seeds. A live NavigatorGUI window displays the robot navigating each maze in real time. Per-scenario results (total reward, steps taken, distance to goal, outcome) are printed to the console.
+
+---
+
+### Monitor training with TensorBoard
+
+```bash
+tensorboard --logdir ./maze_tensorboard/
 ```
 
-# 7. Training Configuration
-The main reward settings are stored in `maze_train.py` inside `REWARD_CONFIG`.
-Key values include:
-```python
-"goal_reward": 2000.0,
-"collision_penalty": -200.0,
-"step_penalty": -0.05,
-"progress_scale": 20.0,
-"new_cell_reward": 0.5,
-"revisit_penalty": -0.05,
-"cnn_visible_reward": 0.5,
-"cnn_centering_reward": 1.5,
-"front_wall_threshold": 0.50,
-"front_wall_penalty": 4.0,
-"proximity_threshold": 0.22,
-"proximity_penalty": -0.8,
-"proximity_exponent": 3.0,
-"crash_lidar_threshold": 0.01,
-```
-PPO hyperparameters include:
-```python
-learning_rate = 0.0003
-n_steps = 1024
-batch_size = 512
-n_epochs = 10
-gamma = 0.99
-gae_lambda = 0.95
-ent_coef = 0.005
-clip_range = 0.2
-```
-# 8. Environment Details
-The custom environment is implemented in:
-```text
-turtlebot3_maze_env.py
-```
-The robot starts in the bottom-left cell and must reach the top-right goal cell.
-The observation size is 52 values:
-```text
-24 LiDAR values
-+ 3 CNN/goal-detection values
-+ 25 visited-cell indicators
-= 52 total observations
-```
-The action space is continuous and controls the TurtleBot's wheel velocities.
-# 9. Troubleshooting
-Error: `No module named 'stable_baselines3'`
-Activate the environment and reinstall:
-```powershell
-.\.venv\Scripts\activate
-python -m pip install stable-baselines3[extra]
-```
-Then test:
-```powershell
-python -c "from stable_baselines3 import PPO; print('works')"
-```
+Then open `http://localhost:6006` in a browser to view live training curves.
 
-TensorBoard does not open
-Make sure logs exist in:
-```text
-maze_tensorboard/
-```
-Then run:
-```powershell
-tensorboard --logdir maze_tensorboard --port 6006
-```
-Open:
-```text
-http://localhost:6006
-```
-Test model not found
-The test script expects this file:
-```text
-model/turtlebot3_maze_model_LIDAR.zip
-```
-Train the model first:
-```powershell
-python maze_train.py
-```
-# 10. Suggested Run Order
-For a fresh setup:
-```powershell
-python -m venv .venv
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\.venv\Scripts\activate
-python -m pip install --upgrade pip
-python -m pip install gymnasium pybullet stable-baselines3[extra] numpy matplotlib pillow tensorboard wandb
-python -c "from stable_baselines3 import PPO; print('Stable-Baselines3 works')"
-python maze.py
-```
-Then use the GUI to train, test, or open TensorBoard.
+---
 
-# 11. Authors
-Created by:
-Abisha Nasim and William Sklibosios
+## How It Works
 
+| Component | Detail |
+|---|---|
+| **Algorithm** | PPO (Proximal Policy Optimization) via Stable-Baselines3 |
+| **Policy** | MlpPolicy — 52-dim observation → continuous 2D wheel velocities |
+| **Observation** | 24 LiDAR rays + 3 CNN goal-detection values + 25 visited-cell flags |
+| **Action space** | Left/right wheel velocity ∈ [−1, 1], mapped to ±15 rad/s |
+| **Maze** | New random 5×5 perfect maze each episode (recursive backtracking DFS) |
+| **Simulator** | PyBullet with gravity, friction, and collision detection |
+| **Reward** | +2000 goal reach (efficiency-scaled) · −200 collision · +0.5 new cell · step penalties for walls, spinning, reversing, revisiting |
