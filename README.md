@@ -48,7 +48,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 pip install gymnasium pybullet stable-baselines3[extra] numpy matplotlib Pillow pygame wandb
 ```
 
-> `pygame` and `wandb` are optional. `pygame` enables the Zelda background music in the GUI; `wandb` enables cloud experiment tracking during training.
+> `pygame` is optional — it enables the Zelda background music in the GUI. `wandb` is strongly recommended for tracking training metrics; without it, metrics are only printed to the console.
 
 ---
 
@@ -81,16 +81,6 @@ python test.py
 ```
 
 Loads the saved model and runs it on **3 random maze scenarios** with fixed seeds. A live NavigatorGUI window displays the robot navigating each maze in real time. Per-scenario results (total reward, steps taken, distance to goal, outcome) are printed to the console.
-
----
-
-### Monitor training with TensorBoard
-
-```bash
-tensorboard --logdir ./maze_tensorboard/
-```
-
-Then open `http://localhost:6006` in a browser to view live training curves.
 
 ---
 
