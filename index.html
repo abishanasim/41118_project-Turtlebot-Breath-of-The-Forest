@@ -80,12 +80,6 @@ header{min-height:100vh;display:flex;flex-direction:column;justify-content:cente
   opacity:0;animation:fadeUp .8s .1s forwards;
 }
 .hero-badge::before{content:"";font-size:.55rem;color:var(--gold-hi)}
-.hero-logo{
-  display:block;max-width:min(90vw,820px);width:100%;height:auto;
-  opacity:0;animation:fadeUp 1s .15s forwards;
-  filter:drop-shadow(0 0 40px rgba(200,160,64,.2));
-  margin:-10px 0 0 -8px;
-}
 .hero-sub{max-width:640px;margin-top:24px;color:var(--sage);font-size:1.02rem;font-weight:300;opacity:0;animation:fadeUp .8s .5s forwards;line-height:1.8}
 .hero-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;opacity:0;animation:fadeUp .8s .7s forwards}
 .btn{
@@ -286,7 +280,11 @@ footer p{color:var(--sage);font-family:var(--mono);font-size:.72rem;margin-top:1
 
 <header>
   <div class="hero-badge">41118 AI in Robotics 2026</div>
-  <img src="images/logo.png" alt="The Legend of TurtleBot: Breath of the Forest" class="hero-logo">
+  <div class="hero-title" style="opacity:0;animation:fadeUp 1s .15s forwards">
+    <div style="font-family:var(--mono);font-size:clamp(.65rem,1.5vw,.82rem);color:var(--fern);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px">The Legend of</div>
+    <h1 style="font-family:var(--serif);font-size:clamp(4rem,14vw,10rem);font-weight:800;line-height:1.05;color:var(--cream);letter-spacing:-1px;filter:drop-shadow(0 0 40px rgba(200,160,64,.2))">TurtleBot</h1>
+    <div style="font-family:var(--serif);font-size:clamp(1rem,3vw,2rem);font-weight:400;color:var(--gold);letter-spacing:4px;text-transform:uppercase;margin-top:8px">Breath of the Forest</div>
+  </div>
   <p class="hero-sub">
     A TurtleBot3 Burger simulated in PyBullet, trained with Proximal Policy Optimisation to navigate
     procedurally generated 5x5 mazes. No global map or predefined path planner; the policy is learned
